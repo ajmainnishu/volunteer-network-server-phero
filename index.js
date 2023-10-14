@@ -24,6 +24,7 @@ async function run() {
     await client.connect();
     const volunteersCollection = client.db('usersDB').collection('volunteers');
     const eventsCollection = client.db('usersDB').collection('events');
+    const registerCollection = client.db('usersDB').collection('register');
     // get volunteers data from mongodb
     app.get('/volunteers', async (req, res) => {
       const result = await volunteersCollection.find().toArray();
@@ -45,6 +46,12 @@ async function run() {
       const id = req.params.id;
       const query = { _id: new ObjectId(id) };
       const result = await eventsCollection.deleteOne(query);
+      res.send(result);
+    })
+    // register post
+    app.post('/register', async (req, res) => {
+      const data = req.body;
+      const result = await registerCollection.insertOne(data);
       res.send(result);
     })
     await client.db("admin").command({ ping: 1 });
