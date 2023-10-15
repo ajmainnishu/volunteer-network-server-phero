@@ -48,10 +48,22 @@ async function run() {
       const result = await eventsCollection.deleteOne(query);
       res.send(result);
     })
+    // register get
+    app.get('/register', async (req, res) => {
+      const result = await registerCollection.find().toArray();
+      res.send(result);
+    })
     // register post
     app.post('/register', async (req, res) => {
       const data = req.body;
       const result = await registerCollection.insertOne(data);
+      res.send(result);
+    })
+    // register delete
+    app.delete('/register/:id', async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const result = await registerCollection.deleteOne(query);
       res.send(result);
     })
     await client.db("admin").command({ ping: 1 });
