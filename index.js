@@ -30,6 +30,12 @@ async function run() {
       const result = await volunteersCollection.find().toArray();
       res.send(result);
     })
+    // post volunteers data from mongodb
+    app.post('/volunteers', async (req, res) => {
+      const data = req.body;
+      const result = await volunteersCollection.insertOne(data);
+      res.send(result);
+    })
     // events get
     app.get('/events', async (req, res) => {
       const result = await eventsCollection.find().toArray();
